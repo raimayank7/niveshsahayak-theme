@@ -55,7 +55,7 @@ function loadPages(done){
         fillContacts(el);
         el.classList.add('is-loaded');   /* sections fade up one after another */
       })
-      .catch(function(){})   /* keep the fallback text from the Blogger page */
+      .catch(function () { el.classList.add('is-failed'); })   /* keep the fallback text from the Blogger page */
       .then(function(){ el.classList.remove('is-loading'); if(--left===0) done(); });
   });
 }

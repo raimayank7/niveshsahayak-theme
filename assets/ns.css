@@ -118,9 +118,9 @@ html.ns-l-tr .ns-actions .ns-hide-sm{display:none!important}
 @media (max-width:760px){.ns-inv{padding:40px 0}.ns-inv__card{flex-direction:column;align-items:flex-start;padding:22px}.ns-wl{padding:22px 18px 18px}.ns-wl__btns .ns-btn{flex:1 1 100%;justify-content:center}}
 
 /* ===== Pages loaded from GitHub (data-ns-page): shimmer skeleton while loading, then sections fade up in turn ===== */
-[data-ns-page].is-loading{position:relative;min-height:340px;overflow:hidden}
-[data-ns-page].is-loading>*{opacity:0}
-[data-ns-page].is-loading::before{content:"";position:absolute;inset:0;
+[data-ns-page]:not(.is-loaded):not(.is-failed){animation:nsWait 8s step-end;position:relative;min-height:340px;overflow:hidden}
+[data-ns-page]:not(.is-loaded):not(.is-failed)>*{animation:nsGone 8s step-end}
+[data-ns-page]:not(.is-loaded):not(.is-failed)::before{content:"";position:absolute;inset:0;
   --sk:color-mix(in srgb,currentColor 10%,transparent);
   background:
     linear-gradient(var(--sk),var(--sk)) 0 0/100% 150px no-repeat,
@@ -129,11 +129,16 @@ html.ns-l-tr .ns-actions .ns-hide-sm{display:none!important}
     linear-gradient(var(--sk),var(--sk)) 0 252px/95% 14px no-repeat,
     linear-gradient(var(--sk),var(--sk)) 0 278px/98% 14px no-repeat,
     linear-gradient(var(--sk),var(--sk)) 0 304px/66% 14px no-repeat;
-  border-radius:16px}
-[data-ns-page].is-loading::after{content:"";position:absolute;inset:0;transform:translateX(-100%);
+  border-radius:16px;animation:nsDone 0s 8s forwards}
+[data-ns-page]:not(.is-loaded):not(.is-failed)::after{content:"";position:absolute;inset:0;transform:translateX(-100%);
   background:linear-gradient(90deg,transparent,color-mix(in srgb,currentColor 9%,transparent),transparent);
-  animation:nsShimmer 1.15s ease-in-out infinite}
+  animation:nsShimmer 1.15s ease-in-out infinite,nsDone 0s 8s forwards}
 @keyframes nsShimmer{to{transform:translateX(100%)}}
+/* Loading state from the first paint, before the script runs: the Blogger fallback text is hidden for at most 8 s,
+   so it comes back by itself if the script never loads (and at once, with .is-failed, if the page file can't be fetched) */
+@keyframes nsWait{0%,100%{-webkit-text-fill-color:transparent}}
+@keyframes nsGone{0%,100%{opacity:0}}
+@keyframes nsDone{to{opacity:0;visibility:hidden}}
 [data-ns-page].is-loaded>*{animation:nsPageIn .55s cubic-bezier(.2,.7,.2,1) both}
 [data-ns-page].is-loaded>*:nth-child(2){animation-delay:.06s}
 [data-ns-page].is-loaded>*:nth-child(3){animation-delay:.12s}
@@ -142,7 +147,7 @@ html.ns-l-tr .ns-actions .ns-hide-sm{display:none!important}
 [data-ns-page].is-loaded>*:nth-child(n+6){animation-delay:.3s}
 @keyframes nsPageIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){
-  [data-ns-page].is-loading::after{display:none}
+  [data-ns-page]:not(.is-loaded):not(.is-failed)::after{display:none}
   [data-ns-page].is-loaded>*{animation:none}
 }
 
