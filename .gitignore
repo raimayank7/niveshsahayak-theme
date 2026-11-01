@@ -1,0 +1,6 @@
+# Public repo = only the files the website loads (assets/) + README.
+# Theme code, guides and scripts stay on this computer.
+/blogger/
+/scripts/
+/*-GUIDE.html
+__pycache__/
