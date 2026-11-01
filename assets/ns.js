@@ -1,5 +1,66 @@
 /* Nivesh Sahayak · niveshsahayak.in · Designed & Developed by Nivesh Sahayak */
 
+(function(){
+/* ===== Pages from GitHub =====
+   A Blogger page holds only <div data-ns-page="about">short fallback text</div>. The real content is
+   pages/about.html next to this file: edit it and push, and the live page changes with nothing to paste.
+   Everything else in this file starts once the page content is in place, so translation, images and
+   the Wealthy card see the full page. */
+var ME=document.currentScript, BASE=ME&&ME.src?ME.src.replace(/ns\.js.*$/,''):'';
+var CFG=window.NS_CONFIG||{};
+
+/* The theme fills these when the page opens; content from GitHub arrives later, so fill it here too */
+function fillContacts(root){
+  var wa=String(CFG.whatsapp||'').replace(/\D/g,''), email=String(CFG.email||'').trim();
+  [].forEach.call(root.querySelectorAll('[data-ns-whatsapp]'),function(el){
+    if(!wa){ el.hidden=true; return; }
+    el.href='https://wa.me/'+wa; el.target='_blank'; el.rel='noopener';
+    if(el.hasAttribute('data-ns-text')) el.textContent='+'+wa;
+  });
+  [].forEach.call(root.querySelectorAll('[data-ns-email]'),function(el){
+    if(!email){ el.hidden=true; return; }
+    el.href='mailto:'+email;
+    if(el.hasAttribute('data-ns-text')) el.textContent=email;
+  });
+  /* social buttons: copy the ones the theme already drew in the footer */
+  var src=document.querySelectorAll('.ns-footer .ns-social a.ns-social__a');
+  [].forEach.call(root.querySelectorAll('[data-ns-social]'),function(ph){
+    if(!src.length){ ph.hidden=true; return; }
+    var labels=ph.getAttribute('data-ns-social')==='labels', wrap=document.createElement('div');
+    wrap.className='ns-social'+(labels?' ns-social--labels':'');
+    [].forEach.call(src,function(a){
+      var c=a.cloneNode(true);
+      if(labels && !c.querySelector('span')){ var t=document.createElement('span'); t.textContent=(a.title||'').replace(/^.* on /,''); c.appendChild(t); }
+      wrap.appendChild(c);
+    });
+    ph.innerHTML=''; ph.appendChild(wrap);
+  });
+}
+
+function loadPages(done){
+  var slots=document.querySelectorAll('[data-ns-page]'), left=slots.length;
+  if(!left) return done();
+  [].forEach.call(slots,function(el){
+    el.classList.add('is-loading');   /* shimmer skeleton (ns.css) until the content arrives */
+    var name=el.getAttribute('data-ns-page'), v=(window.NS_ASSETS||{}).v||'';
+    fetch(BASE+'pages/'+name+'.html'+(v?'?v='+v:''),{cache:'no-cache'})
+      .then(function(r){ if(!r.ok) throw new Error(r.status); return r.text(); })
+      .then(function(html){
+        el.innerHTML=html;
+        [].forEach.call(el.querySelectorAll('script'),function(old){   /* scripts added with innerHTML don't run */
+          var s=document.createElement('script');
+          [].forEach.call(old.attributes,function(a){ s.setAttribute(a.name,a.value); });
+          s.text=old.text; old.parentNode.replaceChild(s,old);
+        });
+        fillContacts(el);
+        el.classList.add('is-loaded');   /* sections fade up one after another */
+      })
+      .catch(function(){})   /* keep the fallback text from the Blogger page */
+      .then(function(){ el.classList.remove('is-loading'); if(--left===0) done(); });
+  });
+}
+
+function nsMain(){
 /* ===== Language system, articles, SEO helpers ===== */
 (function(){
 'use strict';
@@ -772,4 +833,8 @@ document.addEventListener('click',function(e){
   if(!a || e.ctrlKey || e.metaKey || e.shiftKey) return;   // Ctrl/Cmd-click still opens Wealthy directly
   e.preventDefault(); openM();
 });
+})();
+}
+
+loadPages(nsMain);
 })();
