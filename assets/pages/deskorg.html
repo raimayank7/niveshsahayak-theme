@@ -4,11 +4,10 @@
      click the pencil > HTML view ( <> ) > paste ALL of this > Publish.
      URL becomes niveshsahayak.in/p/deskorg.html
      No card wrapper: it inherits your theme's background & body font,
-     uses Unbounded for headings, and subtle translucent panels. Scoped
+     uses the site heading font, and subtle translucent panels. Scoped
      to #dorg so it won't affect the rest of your site.
 ==================================================================== -->
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&display=swap');
 
 /* Hide this theme's duplicate page title on THIS page only (the hero is the title) */
 .ns-article__title{display:none !important;}
@@ -17,7 +16,7 @@
   --teal:#2FE6C8; --purple:#8C7BFF; --pink:#FF5C9A; --amber:#FFB44D; --muted:#95A0BE;
   --surface:rgba(255,255,255,.045); --surf-br:rgba(255,255,255,.11); --hair:rgba(255,255,255,.09);
   --grad:linear-gradient(100deg,#2FE6C8 0%,#8C7BFF 55%,#FF5C9A 100%);
-  --display:"Unbounded","Segoe UI",system-ui,sans-serif;
+  --display:var(--font-head);
   line-height:1.65;
 }
 #dorg *{box-sizing:border-box}
