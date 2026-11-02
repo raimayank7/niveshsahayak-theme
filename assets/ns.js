@@ -92,6 +92,9 @@ var PAGE_SIZE   = 8;
       (used on purpose for legal/regulatory wording).
    ------------------------------------------------------------------ */
 var T = {
+"★ Add us as a preferred source on Google":{hi:"★ Google पर हमें पसंदीदा स्रोत बनाएँ",pa:"★ Google 'ਤੇ ਸਾਨੂੰ ਪਸੰਦੀਦਾ ਸਰੋਤ ਬਣਾਓ",bho:"★ Google पर हमनी के पसंदीदा स्रोत बनाईं"},
+"Add us as a preferred source on Google":{hi:"Google पर हमें पसंदीदा स्रोत बनाएँ",pa:"Google 'ਤੇ ਸਾਨੂੰ ਪਸੰਦੀਦਾ ਸਰੋਤ ਬਣਾਓ",bho:"Google पर हमनी के पसंदीदा स्रोत बनाईं"},
+"Preferred source":{hi:"पसंदीदा स्रोत",pa:"ਪਸੰਦੀਦਾ ਸਰੋਤ",bho:"पसंदीदा स्रोत"},
 "Skip to content":{hi:"मुख्य सामग्री पर जाएँ",pa:"ਮੁੱਖ ਸਮੱਗਰੀ 'ਤੇ ਜਾਓ",bho:"मुख्य सामग्री पर जाईं"},
 "AMFI Registered Mutual Fund Distributor ·":{hi:"AMFI पंजीकृत म्यूचुअल फंड वितरक ·",pa:"AMFI ਰਜਿਸਟਰਡ ਮਿਊਚੁਅਲ ਫੰਡ ਡਿਸਟ੍ਰੀਬਿਊਟਰ ·",bho:"AMFI रजिस्टर्ड म्यूचुअल फंड वितरक ·"},
 "AMFI Registered Mutual Fund Distributor":{hi:"AMFI पंजीकृत म्यूचुअल फंड वितरक",pa:"AMFI ਰਜਿਸਟਰਡ ਮਿਊਚੁਅਲ ਫੰਡ ਡਿਸਟ੍ਰੀਬਿਊਟਰ",bho:"AMFI रजिस्टर्ड म्यूचुअल फंड वितरक"},
@@ -595,7 +598,9 @@ function choose(v){
 }
 var ov=null, lastFocus=null;
 function closePicker(){ if(ov){ ov.remove(); ov=null; doc.removeEventListener('keydown',onKey); if(lastFocus) lastFocus.focus(); } }
-function onKey(e){ if(e.key==='Escape' && getPref()) closePicker(); }
+function onKey(e){ if(e.key==='Escape') laterPicker(); }
+// closing the first-visit picker without choosing: keep the page as it is and don't ask again on every page
+function laterPicker(){ try{ localStorage.setItem('ns-lang-later','1'); }catch(e){} closePicker(); }
 function openPicker(first){
   if(ov) return; lastFocus=doc.activeElement;
   var cur = getPref() || suggest();
@@ -605,7 +610,7 @@ function openPicker(first){
   }).join('');
   var sel=TRANSLATE.map(function(t){ return '<option value="'+t[0]+'"'+(cur==='tr:'+t[0]?' selected':'')+'>'+t[1]+'</option>'; }).join('');
   ov.innerHTML='<div class="ns-lang-dlg" role="dialog" aria-modal="true" aria-labelledby="ns-lang-h">'+
-    (first?'':'<button type="button" class="ns-lang-x" aria-label="Close">×</button>')+
+    '<button type="button" class="ns-lang-x" aria-label="Close">×</button>'+
     '<div class="ns-lang-dlg__ic">'+GLOBE+'</div>'+
     '<h2 id="ns-lang-h">Choose your language · <span lang="hi">भाषा चुनें</span> · <span lang="pa">ਭਾਸ਼ਾ ਚੁਣੋ</span></h2>'+
     '<p class="ns-lang-dlg__sub">'+esc(S.en.sub)+'</p>'+
@@ -617,7 +622,7 @@ function openPicker(first){
   ov.addEventListener('click',function(e){
     var o=e.target.closest('.ns-lang-opt'); if(o) return choose(o.getAttribute('data-l'));
     if(e.target.closest('.ns-lang-go')) return choose('tr:'+ov.querySelector('#ns-lang-sel').value);
-    if(e.target.closest('.ns-lang-x') || (e.target===ov && getPref())) closePicker();
+    if(e.target.closest('.ns-lang-x') || e.target===ov) laterPicker();
   });
   doc.addEventListener('keydown',onKey);
   var f=ov.querySelector('.ns-lang-opt[aria-pressed=true]')||ov.querySelector('.ns-lang-opt'); f.focus();
@@ -702,7 +707,8 @@ loadIndex().then(function(idx){
   articleExtras(idx);
 }, function(){}).then(unpend);
 
-if(!pref && !isBot) setTimeout(function(){ openPicker(true); },400);
+var later=null; try{ later=localStorage.getItem('ns-lang-later'); }catch(e){}
+if(!pref && !later && !isBot) setTimeout(function(){ openPicker(true); },400);
 
 window.NSLang={open:function(){openPicker(false);},set:choose,lang:lang};
 })();
