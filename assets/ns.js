@@ -912,3 +912,20 @@ loadPages(nsMain);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', add); else add();
 })();
+
+/* Footer credit (owner rule: every project): "Designed & Developed by: Nivesh Sahayak" in the footer's bottom row,
+   drawn by the shared credit.js badge (plain text if that file can't load). */
+;(function () {
+  function add() {
+    var row = document.querySelector('.ns-legal__bottom');
+    if (!row || row.querySelector('[data-ns-credit], .ns-credit')) return;
+    var s = document.createElement('span');
+    s.setAttribute('data-ns-credit', '');
+    s.innerHTML = 'Designed &amp; Developed by: <a href="https://www.niveshsahayak.in/">Nivesh Sahayak</a>';
+    row.appendChild(s);
+    if (!document.querySelector('script[src*="niveshsahayak.in/assets/credit.js"]')) {
+      var j = document.createElement('script'); j.async = true; j.src = 'https://assets.niveshsahayak.in/assets/credit.js'; document.head.appendChild(j);
+    }
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', add); else add();
+})();
