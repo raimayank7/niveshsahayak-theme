@@ -276,8 +276,10 @@ function unpend(){ html.className=html.className.replace(/\s*ns-lang-pending/g,'
    ------------------------------------------------------------------ */
 var isArticle = body.classList.contains('is-post');
 function skipNode(el){
-  // article titles and bodies are written by hand in each language; page headings ("About", "Contact"…) are translated
-  return !el || el.closest('script,style,textarea,.ns-lang-ov,.ns-lang-btn,.ns-card__title,.ns-card__excerpt,#PopularPosts1 .post-title'+(isArticle?',.ns-crumbs__cur,.ns-article__title,.post-title,.post-body':''));
+  // article titles and bodies are written by hand in each language (a calculator inside an article is still translated);
+  // page headings ("About", "Contact"…) are translated
+  return !el || !!el.closest('script,style,textarea,.ns-lang-ov,.ns-lang-btn,.ns-card__title,.ns-card__excerpt,#PopularPosts1 .post-title'+(isArticle?',.ns-crumbs__cur,.ns-article__title,.post-title':''))
+    || (isArticle && !!el.closest('.post-body') && !el.closest('.ns-calc'));
 }
 function translateTree(root){
   if(lang==='en') return;
@@ -500,7 +502,9 @@ function filterLists(idx){
     var keep=cards.filter(function(c){ var a=c.querySelector('.ns-card__title a'); var p=a&&byUrl[normUrl(a.href)]; return !p||p.l===lang; });
     if(keep.length) cards.forEach(function(c){ if(keep.indexOf(c)<0) c.style.display='none'; });
   }
-  // Popular posts widget
+}
+// Popular posts widget (home, topic pages AND article pages)
+function filterPopular(idx){
   var byU={}; idx.forEach(function(p){ byU[normUrl(p.u)]=p; });
   var pops=[].slice.call(doc.querySelectorAll('#PopularPosts1 article, #PopularPosts1 li'));
   // a popular post written in another language points to its version in the reader's language, when there is one
@@ -513,7 +517,11 @@ function filterLists(idx){
     var sn=a.querySelector('.snippet-item, .item-snippet, .post-snippet'); if(sn) sn.textContent=twin.s;
     a.setAttribute('lang',LANGS[lang].html);
   });
-  var popKeep=pops.filter(function(a){ var l=a.querySelector('a'); var p=l&&byU[normUrl(l.href)]; return !p||p.l===lang; });
+  var seen={}, popKeep=pops.filter(function(a){
+    var l=a.querySelector('a'), u=l&&normUrl(l.href), p=u&&byU[u];
+    if(p && (p.l!==lang || seen[u])) return false;   // other language, or a second card for the same article
+    if(u) seen[u]=1; return true;
+  });
   if(popKeep.length) pops.forEach(function(a){ if(popKeep.indexOf(a)<0) a.style.display='none'; });
 }
 
@@ -734,6 +742,7 @@ if(lang!=='en' && window.MutationObserver){
 
 loadIndex().then(function(idx){
   filterLists(idx);
+  filterPopular(idx);
   rankPopular();
   articleExtras(idx);
 }, function(){}).then(unpend);
