@@ -192,6 +192,13 @@ var T = {
 "Filed under":{hi:"विषय:",pa:"ਵਿਸ਼ਾ:",bho:"विषय:"},
 "Share":{hi:"शेयर करें",pa:"ਸਾਂਝਾ ਕਰੋ",bho:"शेयर करीं"},
 "Copy link":{hi:"लिंक कॉपी करें",pa:"ਲਿੰਕ ਕਾਪੀ ਕਰੋ",bho:"लिंक कॉपी करीं"},
+"Share this article":{hi:"यह लेख शेयर करें",pa:"ਇਹ ਲੇਖ ਸਾਂਝਾ ਕਰੋ",bho:"ई लेख शेयर करीं"},
+"Share on WhatsApp":{hi:"WhatsApp पर शेयर करें",pa:"WhatsApp 'ਤੇ ਸਾਂਝਾ ਕਰੋ",bho:"WhatsApp पर शेयर करीं"},
+"Share on LinkedIn":{hi:"LinkedIn पर शेयर करें",pa:"LinkedIn 'ਤੇ ਸਾਂਝਾ ਕਰੋ",bho:"LinkedIn पर शेयर करीं"},
+"Share on X (Twitter)":{hi:"X (Twitter) पर शेयर करें",pa:"X (Twitter) 'ਤੇ ਸਾਂਝਾ ਕਰੋ",bho:"X (Twitter) पर शेयर करीं"},
+"Share on X":{hi:"X पर शेयर करें",pa:"X 'ਤੇ ਸਾਂਝਾ ਕਰੋ",bho:"X पर शेयर करीं"},
+"Share on Facebook":{hi:"Facebook पर शेयर करें",pa:"Facebook 'ਤੇ ਸਾਂਝਾ ਕਰੋ",bho:"Facebook पर शेयर करीं"},
+"Share on Telegram":{hi:"Telegram पर शेयर करें",pa:"Telegram 'ਤੇ ਸਾਂਝਾ ਕਰੋ",bho:"Telegram पर शेयर करीं"},
 "Copied!":{hi:"कॉपी हो गया!",pa:"ਕਾਪੀ ਹੋ ਗਿਆ!",bho:"कॉपी हो गइल!"},
 "More…":{hi:"और…",pa:"ਹੋਰ…",bho:"अउर…"},
 "Written by":{hi:"लेखक",pa:"ਲੇਖਕ",bho:"लेखक"},
@@ -233,10 +240,10 @@ var T = {
 
 /* Messages used by the language system itself ({L} = language name) */
 var S = {
-  en:{lang:'Language',title:'Choose your language',sub:'You can change this any time using the 🌐 button at the top.',other:'Other languages (auto-translate)',go:'Translate',otherNote:'Translated automatically by Google. Finance terms may not be exact — the English version is authoritative.',avail:'This article is also available in {L}.',read:'Read in {L} →',onlyIn:'This article is currently available in {L} only.',none:'No articles in {L} here yet — showing English articles for now.',more:'Load more articles',trBar:'This page is auto-translated from English. Finance terms may not be exact.',trOff:'Show original'},
-  hi:{lang:'भाषा',title:'अपनी भाषा चुनें',sub:'आप इसे कभी भी ऊपर दिए 🌐 बटन से बदल सकते हैं।',avail:'यह लेख हिन्दी में भी उपलब्ध है।',read:'हिन्दी में पढ़ें →',onlyIn:'यह लेख अभी केवल {L} में उपलब्ध है।',none:'यहाँ अभी हिन्दी में लेख नहीं हैं — फ़िलहाल अंग्रेज़ी लेख दिखाए जा रहे हैं।',more:'और लेख देखें'},
-  pa:{lang:'ਭਾਸ਼ਾ',title:'ਆਪਣੀ ਭਾਸ਼ਾ ਚੁਣੋ',sub:'ਤੁਸੀਂ ਇਸਨੂੰ ਕਦੇ ਵੀ ਉੱਪਰ ਦਿੱਤੇ 🌐 ਬਟਨ ਨਾਲ ਬਦਲ ਸਕਦੇ ਹੋ।',avail:'ਇਹ ਲੇਖ ਪੰਜਾਬੀ ਵਿੱਚ ਵੀ ਉਪਲਬਧ ਹੈ।',read:'ਪੰਜਾਬੀ ਵਿੱਚ ਪੜ੍ਹੋ →',onlyIn:'ਇਹ ਲੇਖ ਹਾਲੇ ਸਿਰਫ਼ {L} ਵਿੱਚ ਉਪਲਬਧ ਹੈ।',none:'ਇੱਥੇ ਹਾਲੇ ਪੰਜਾਬੀ ਵਿੱਚ ਲੇਖ ਨਹੀਂ ਹਨ — ਫ਼ਿਲਹਾਲ ਅੰਗਰੇਜ਼ੀ ਲੇਖ ਦਿਖਾਏ ਜਾ ਰਹੇ ਹਨ।',more:'ਹੋਰ ਲੇਖ ਦੇਖੋ'},
-  bho:{lang:'भाषा',title:'आपन भाषा चुनीं',sub:'रउआ एकरा के कबहूँ ऊपर दिहल 🌐 बटन से बदल सकीले।',avail:'ई लेख भोजपुरी में भी बा।',read:'भोजपुरी में पढ़ीं →',onlyIn:'ई लेख अभी खाली {L} में बा।',none:'इहाँ अभी भोजपुरी में लेख नइखे — फिलहाल अंग्रेजी लेख देखावल जात बा।',more:'अउर लेख देखीं'}
+  en:{lang:'Language',pageEn:'This page is available in English only for now. The English text is the official version.',gtRead:'Read with Google Translate ↗',title:'Choose your language',sub:'You can change this any time using the 🌐 button at the top.',other:'Other languages (auto-translate)',go:'Translate',otherNote:'Translated automatically by Google. Finance terms may not be exact — the English version is authoritative.',avail:'This article is also available in {L}.',read:'Read in {L} →',onlyIn:'This article is currently available in {L} only.',none:'No articles in {L} here yet — showing English articles for now.',more:'Load more articles',trBar:'This page is auto-translated from English. Finance terms may not be exact.',trOff:'Show original'},
+  hi:{lang:'भाषा',pageEn:'यह पेज अभी केवल अंग्रेज़ी में उपलब्ध है। अंग्रेज़ी संस्करण ही आधिकारिक है।',gtRead:'Google अनुवाद से पढ़ें ↗',title:'अपनी भाषा चुनें',sub:'आप इसे कभी भी ऊपर दिए 🌐 बटन से बदल सकते हैं।',avail:'यह लेख हिन्दी में भी उपलब्ध है।',read:'हिन्दी में पढ़ें →',onlyIn:'यह लेख अभी केवल {L} में उपलब्ध है।',none:'यहाँ अभी हिन्दी में लेख नहीं हैं — फ़िलहाल अंग्रेज़ी लेख दिखाए जा रहे हैं।',more:'और लेख देखें'},
+  pa:{lang:'ਭਾਸ਼ਾ',pageEn:'ਇਹ ਪੰਨਾ ਹਾਲੇ ਸਿਰਫ਼ ਅੰਗਰੇਜ਼ੀ ਵਿੱਚ ਉਪਲਬਧ ਹੈ। ਅੰਗਰੇਜ਼ੀ ਸੰਸਕਰਣ ਹੀ ਅਧਿਕਾਰਤ ਹੈ।',gtRead:'Google ਅਨੁਵਾਦ ਨਾਲ ਪੜ੍ਹੋ ↗',title:'ਆਪਣੀ ਭਾਸ਼ਾ ਚੁਣੋ',sub:'ਤੁਸੀਂ ਇਸਨੂੰ ਕਦੇ ਵੀ ਉੱਪਰ ਦਿੱਤੇ 🌐 ਬਟਨ ਨਾਲ ਬਦਲ ਸਕਦੇ ਹੋ।',avail:'ਇਹ ਲੇਖ ਪੰਜਾਬੀ ਵਿੱਚ ਵੀ ਉਪਲਬਧ ਹੈ।',read:'ਪੰਜਾਬੀ ਵਿੱਚ ਪੜ੍ਹੋ →',onlyIn:'ਇਹ ਲੇਖ ਹਾਲੇ ਸਿਰਫ਼ {L} ਵਿੱਚ ਉਪਲਬਧ ਹੈ।',none:'ਇੱਥੇ ਹਾਲੇ ਪੰਜਾਬੀ ਵਿੱਚ ਲੇਖ ਨਹੀਂ ਹਨ — ਫ਼ਿਲਹਾਲ ਅੰਗਰੇਜ਼ੀ ਲੇਖ ਦਿਖਾਏ ਜਾ ਰਹੇ ਹਨ।',more:'ਹੋਰ ਲੇਖ ਦੇਖੋ'},
+  bho:{lang:'भाषा',pageEn:'ई पेज अभी खाली अंग्रेजी में बा। अंग्रेजी वाला संस्करण ही आधिकारिक बा।',gtRead:'Google अनुवाद से पढ़ीं ↗',title:'आपन भाषा चुनीं',sub:'रउआ एकरा के कबहूँ ऊपर दिहल 🌐 बटन से बदल सकीले।',avail:'ई लेख भोजपुरी में भी बा।',read:'भोजपुरी में पढ़ीं →',onlyIn:'ई लेख अभी खाली {L} में बा।',none:'इहाँ अभी भोजपुरी में लेख नइखे — फिलहाल अंग्रेजी लेख देखावल जात बा।',more:'अउर लेख देखीं'}
 };
 var LANG_IN = { // language names as written inside each UI language (for "only in {L}")
   en:{en:'English',hi:'Hindi',pa:'Punjabi',bho:'Bhojpuri'},
@@ -269,7 +276,8 @@ function unpend(){ html.className=html.className.replace(/\s*ns-lang-pending/g,'
    ------------------------------------------------------------------ */
 var isArticle = body.classList.contains('is-post');
 function skipNode(el){
-  return !el || el.closest('script,style,textarea,.ns-lang-ov,.ns-lang-btn,.ns-card__title,.ns-card__excerpt,.ns-crumbs__cur,.ns-article__title,.post-title'+(isArticle?',.post-body':''));
+  // article titles and bodies are written by hand in each language; page headings ("About", "Contact"…) are translated
+  return !el || el.closest('script,style,textarea,.ns-lang-ov,.ns-lang-btn,.ns-card__title,.ns-card__excerpt,#PopularPosts1 .post-title'+(isArticle?',.ns-crumbs__cur,.ns-article__title,.post-title,.post-body':''));
 }
 function translateTree(root){
   if(lang==='en') return;
@@ -305,10 +313,19 @@ function localDates(root){
 /* Static pages: show only the block for the chosen language
    <div data-ns-lang="en">…</div> <div data-ns-lang="hi">…</div> */
 function langBlocks(){
-  var blocks=doc.querySelectorAll('[data-ns-lang]'); if(!blocks.length) return;
+  var blocks=doc.querySelectorAll('[data-ns-lang]'), slot=doc.querySelector('[data-ns-page]');
+  if(!blocks.length){ if(slot) pageOnlyEn(slot); return; }
   var has={}; blocks.forEach(function(b){ has[b.getAttribute('data-ns-lang')]=1; });
   var show = has[lang] ? lang : 'en';
   blocks.forEach(function(b){ var l=b.getAttribute('data-ns-lang'); b.hidden = (l!==show); if(l===show && LANGS[l]) b.setAttribute('lang',LANGS[l].html); });
+  if(show!==lang) pageOnlyEn(blocks[0]);
+}
+/* A page from GitHub with no text in the reader's language: say so (in their language) and offer Google's translation */
+function pageOnlyEn(at){
+  if(lang==='en' || trCode || doc.querySelector('.ns-lang-banner')) return;
+  var b=doc.createElement('div'); b.className='ns-lang-banner'; b.setAttribute('role','note');
+  b.innerHTML='<span>'+esc(s('pageEn'))+'</span><a href="https://translate.google.com/translate?sl=en&amp;tl='+lang+'&amp;u='+encodeURIComponent(location.href)+'" target="_blank" rel="noopener">'+esc(s('gtRead'))+'</a>';
+  at.parentNode.insertBefore(b,at);
 }
 
 /* Article images: show banners at full width (sharp WebP from Blogger),
@@ -486,6 +503,16 @@ function filterLists(idx){
   // Popular posts widget
   var byU={}; idx.forEach(function(p){ byU[normUrl(p.u)]=p; });
   var pops=[].slice.call(doc.querySelectorAll('#PopularPosts1 article, #PopularPosts1 li'));
+  // a popular post written in another language points to its version in the reader's language, when there is one
+  if(lang!=='en') pops.forEach(function(a){
+    var l=a.querySelector('a'), p=l&&byU[normUrl(l.href)]; if(!p||p.l===lang||!p.p) return;
+    var twin=idx.filter(function(x){ return x.p===p.p && x.l===lang; })[0]; if(!twin) return;
+    [].forEach.call(a.querySelectorAll('a[href]'),function(x){ if(normUrl(x.href)===normUrl(p.u)) x.href=twin.u; });
+    var t=a.querySelector('.post-title a, .item-title a, .post-title'); if(t) t.textContent=twin.t;
+    var img=a.querySelector('img'); if(img) img.alt=twin.t;
+    var sn=a.querySelector('.snippet-item, .item-snippet, .post-snippet'); if(sn) sn.textContent=twin.s;
+    a.setAttribute('lang',LANGS[lang].html);
+  });
   var popKeep=pops.filter(function(a){ var l=a.querySelector('a'); var p=l&&byU[normUrl(l.href)]; return !p||p.l===lang; });
   if(popKeep.length) pops.forEach(function(a){ if(popKeep.indexOf(a)<0) a.style.display='none'; });
 }
@@ -557,6 +584,7 @@ function seoTitles(){
   var path=decodeURIComponent(location.pathname), m=path.match(/^\/search\/label\/(.+)$/), q=(location.search.match(/[?&]q=([^&]*)/)||[])[1];
   if(m && !/^(lang|pair)-/.test(m[1])) doc.title=(tr(m[1])||m[1])+' | '+SITE;
   else if(q) doc.title='“'+decodeURIComponent(q.replace(/\+/g,' '))+'” — '+(tr('Search results')||'Search results')+' | '+SITE;
+  else if(body.classList.contains('is-page')){ var pt=doc.title.split(' | '), x=tr(pt[0].trim()); if(x){ pt[0]=x; doc.title=pt.join(' | '); } }
 }
 
 function articleExtras(idx){
@@ -694,10 +722,13 @@ if(trCode){ setGT(trCode); startGT(); }
 
 // keep translating text that the theme adds later (calculator results, form messages…)
 if(lang!=='en' && window.MutationObserver){
-  var pend=false;
+  var queue=[];   // every change is kept until the next pass (changes that came in while one was waiting used to be lost)
   new MutationObserver(function(muts){
-    if(pend) return; pend=true;
-    setTimeout(function(){ pend=false; muts.forEach(function(m){ var t=m.target.nodeType===3?m.target.parentNode:m.target; if(t&&t.nodeType===1&&!t.closest('.ns-grid')) translateTree(t); }); },30);
+    if(!queue.length) setTimeout(function(){
+      var q=queue; queue=[];
+      q.forEach(function(m){ var t=m.target.nodeType===3?m.target.parentNode:m.target; if(t&&t.nodeType===1&&t.isConnected&&!t.closest('.ns-grid')) translateTree(t); });
+    },30);
+    queue.push.apply(queue,muts);
   }).observe(body,{childList:true,subtree:true,characterData:true});
 }
 
