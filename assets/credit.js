@@ -18,7 +18,7 @@
   var BRAND = 'https://assets.niveshsahayak.in/assets/brand/credit-mark-';
   /* quiet by design: it takes the footer's own colour and font, only the name is bold with a thin amber underline */
   var CSS = '.ns-credit{display:inline-flex;align-items:center;gap:6px;color:inherit!important;text-decoration:none!important;font:inherit;vertical-align:middle;white-space:nowrap}' +
-    '.ns-credit img{width:auto!important;height:18px!important;max-width:none;flex:none;margin:0!important;border:0!important;box-shadow:none!important;background:none!important}' +
+    '.ns-credit img{width:auto!important;height:24px!important;max-width:none;flex:none;margin:0!important;border:0!important;box-shadow:none!important;background:none!important}' +
     '.ns-credit b{font-weight:700;background:linear-gradient(#F5A524,#F5A524) 0 100%/100% 1.5px no-repeat;padding-bottom:1px;transition:background-size .2s}' +
     '.ns-credit:hover b,.ns-credit:focus-visible b{background-size:100% 100%;color:#0B3B5B}' +
     '.ns-credit:focus-visible{outline:2px solid #F5A524;outline-offset:3px;border-radius:4px}' +
@@ -29,7 +29,7 @@
     var a = document.createElement('a');
     a.className = 'ns-credit'; a.href = CREDIT.url; a.target = '_blank'; a.rel = 'noopener';
     a.title = 'Website designed & developed by Nivesh Sahayak';
-    a.innerHTML = '<img alt="" width="26" height="18" decoding="async"><span>' + CREDIT.before + ' <b>' + CREDIT.name + '</b></span>';
+    a.innerHTML = '<img alt="" width="34" height="24" decoding="async"><span>' + CREDIT.before + ' <b>' + CREDIT.name + '</b></span>';
     return a;
   }
   /* light text = dark footer → silver-N picture; dark text = light footer → gold-N picture */
