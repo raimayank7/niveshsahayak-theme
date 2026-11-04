@@ -14,13 +14,11 @@
     url: 'https://www.niveshsahayak.in/'
   };
   var RE = /(designed\s*&\s*developed|built)\s+by:?\s*$/i;
-  var MARK = '<svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="16" fill="#0B3B5B"/>' +
-    '<rect x="14" y="38" width="8" height="12" rx="2" fill="#fff" opacity=".35"/><rect x="28" y="31" width="8" height="19" rx="2" fill="#fff" opacity=".55"/>' +
-    '<rect x="42" y="24" width="8" height="26" rx="2" fill="#fff" opacity=".85"/>' +
-    '<path d="M12 36L25 25L33 31L49 15M40 15H49V24" fill="none" stroke="#F5A524" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  /* the teal NS emblem: gold N for light footers, silver N for dark ones (picked from the footer's text colour, see tone()) */
+  var BRAND = 'https://assets.niveshsahayak.in/assets/brand/credit-mark-';
   /* quiet by design: it takes the footer's own colour and font, only the name is bold with a thin amber underline */
   var CSS = '.ns-credit{display:inline-flex;align-items:center;gap:6px;color:inherit!important;text-decoration:none!important;font:inherit;vertical-align:middle;white-space:nowrap}' +
-    '.ns-credit svg{width:16px;height:16px;flex:none;border-radius:4px}' +
+    '.ns-credit img{width:auto!important;height:18px!important;max-width:none;flex:none;margin:0!important;border:0!important;box-shadow:none!important;background:none!important}' +
     '.ns-credit b{font-weight:700;background:linear-gradient(#F5A524,#F5A524) 0 100%/100% 1.5px no-repeat;padding-bottom:1px;transition:background-size .2s}' +
     '.ns-credit:hover b,.ns-credit:focus-visible b{background-size:100% 100%;color:#0B3B5B}' +
     '.ns-credit:focus-visible{outline:2px solid #F5A524;outline-offset:3px;border-radius:4px}' +
@@ -31,8 +29,16 @@
     var a = document.createElement('a');
     a.className = 'ns-credit'; a.href = CREDIT.url; a.target = '_blank'; a.rel = 'noopener';
     a.title = 'Website designed & developed by Nivesh Sahayak';
-    a.innerHTML = MARK + '<span>' + CREDIT.before + ' <b>' + CREDIT.name + '</b></span>';
+    a.innerHTML = '<img alt="" width="26" height="18" decoding="async"><span>' + CREDIT.before + ' <b>' + CREDIT.name + '</b></span>';
     return a;
+  }
+  /* light text = dark footer → silver-N picture; dark text = light footer → gold-N picture */
+  function tone() {
+    [].forEach.call(document.querySelectorAll('.ns-credit img'), function (img) {
+      var c = (getComputedStyle(img.parentNode).color.match(/[\d.]+/g) || [0, 0, 0]).map(Number);
+      var src = BRAND + ((0.299 * c[0] + 0.587 * c[1] + 0.114 * c[2]) > 140 ? 'dark' : 'light') + '.webp';
+      if (img.getAttribute('src') !== src) img.setAttribute('src', src);
+    });
   }
   function style() {
     if (document.getElementById('ns-credit-css')) return;
@@ -51,6 +57,7 @@
       a.parentNode.replaceChild(badge(), a); done = true;
     });
     if (done) style();
+    tone();
   }
   function start() {
     fill();
@@ -58,6 +65,14 @@
     if (window.MutationObserver && document.body) {
       var t = 0;
       new MutationObserver(function () { clearTimeout(t); t = setTimeout(fill, 120); }).observe(document.body, { childList: true, subtree: true });
+      /* light/dark switch: sites flip a class or data-theme on <html>/<body>; wait for their colour transition */
+      var later = function () { tone(); setTimeout(tone, 450); };
+      var mo = new MutationObserver(later), at = { attributes: true, attributeFilter: ['class', 'data-theme', 'style'] };
+      mo.observe(document.documentElement, at); mo.observe(document.body, at);
+    }
+    if (window.matchMedia) {
+      var mq = matchMedia('(prefers-color-scheme: dark)');
+      if (mq.addEventListener) mq.addEventListener('change', function () { setTimeout(tone, 450); });
     }
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
