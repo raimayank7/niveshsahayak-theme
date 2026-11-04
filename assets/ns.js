@@ -969,3 +969,19 @@ loadPages(nsMain);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', add); else add();
 })();
+
+/* Tab icon = the new NS emblem (owner, 2026-11-04): gold for light browser themes, silver for dark ones.
+   Replaces the theme's old icon links, so no theme upload is needed. */
+;(function () {
+  var B = 'https://assets.niveshsahayak.in/assets/brand/', h = document.head;
+  [].forEach.call(document.querySelectorAll('link[rel~="icon"],link[rel="apple-touch-icon"]'), function (l) { l.parentNode.removeChild(l); });
+  function add(rel, href, sizes, media) {
+    var l = document.createElement('link'); l.rel = rel; l.href = href;
+    if (sizes) l.sizes = sizes; if (media) l.media = media; if (/png$/.test(href)) l.type = 'image/png';
+    h.appendChild(l);
+  }
+  add('icon', B + 'favicon-light-32.png', '32x32', '(prefers-color-scheme: light)');
+  add('icon', B + 'favicon-dark-32.png', '32x32', '(prefers-color-scheme: dark)');
+  add('icon', B + 'favicon-light-192.png', '192x192');
+  add('apple-touch-icon', B + 'apple-touch-icon.png', '180x180');
+})();

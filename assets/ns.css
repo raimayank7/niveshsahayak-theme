@@ -172,3 +172,11 @@ button,input,select,textarea,optgroup{font-family:inherit}
   .ns-actions{gap:2px;flex:none}
   .ns-actions .ns-icon-btn,.ns-actions .ns-lang-btn{width:34px;height:34px}
 }
+
+/* New NS emblem (owner, 2026-11-04): gold on the light theme, silver on the dark theme.
+   The theme's old square SVG stays in Blogger's HTML but is hidden; the picture comes from assets/brand/. */
+.ns-brand svg{display:none!important}
+.ns-brand::before{content:"";flex:none;width:65px;height:46px;background:url(brand/ns-mark-light.webp) center/contain no-repeat}
+[data-theme="dark"] .ns-brand::before{background-image:url(brand/ns-mark-dark.webp)}
+@media (max-width:400px){.ns-brand::before{width:51px;height:36px}}
+@media (max-width:380px){.ns-brand::before{width:42px;height:30px}}
