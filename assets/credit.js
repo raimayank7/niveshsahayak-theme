@@ -14,6 +14,10 @@
     url: 'https://www.niveshsahayak.in/'
   };
   var RE = /(designed\s*&\s*developed|built)\s+by:?\s*$/i;
+  /* "Want a site like this?" after the badge (owner, 2026-11-05): leads to the website design showroom.
+     Not on the showroom itself. */
+  var WANT = { text: 'Want a site like this?', url: 'https://designs.niveshsahayak.in/' };
+  var SHOW_WANT = !/(^|\.)designs\.niveshsahayak\.in$/.test(location.hostname);
   /* the teal NS emblem: gold N for light footers, silver N for dark ones (picked from the footer's text colour, see tone()) */
   var BRAND = 'https://assets.niveshsahayak.in/assets/brand/credit-mark-';
   /* quiet by design: it takes the footer's own colour and font, only the name is bold with a thin amber underline */
@@ -23,6 +27,8 @@
     '.ns-credit:hover b,.ns-credit:focus-visible b{background-size:100% 100%;color:#0B3B5B}' +
     '.ns-credit:focus-visible{outline:2px solid #F5A524;outline-offset:3px;border-radius:4px}' +
     '@media (max-width:380px){.ns-credit{white-space:normal}}' +
+    '.ns-want{color:inherit!important;font:inherit;font-size:.92em;opacity:.85;text-decoration:underline dotted!important;text-underline-offset:3px;margin-left:.6em;white-space:nowrap}' +
+    '.ns-want:hover,.ns-want:focus-visible{opacity:1;text-decoration-style:solid!important}' +
     '@media (prefers-reduced-motion:reduce){.ns-credit b{transition:none}}';
 
   function badge() {
@@ -31,6 +37,11 @@
     a.title = 'Website designed & developed by Nivesh Sahayak';
     a.innerHTML = '<img alt="" width="34" height="24" decoding="async"><span>' + CREDIT.before + ' <b>' + CREDIT.name + '</b></span>';
     return a;
+  }
+  function want() {
+    var w = document.createElement('a');
+    w.className = 'ns-want'; w.href = WANT.url; w.target = '_blank'; w.rel = 'noopener'; w.textContent = WANT.text;
+    return w;
   }
   /* light text = dark footer → silver-N picture; dark text = light footer → gold-N picture */
   function tone() {
@@ -48,13 +59,15 @@
   function fill(root) {
     var done = false;
     [].forEach.call((root || document).querySelectorAll('[data-ns-credit]:not([data-ns-done])'), function (el) {
-      el.setAttribute('data-ns-done', ''); el.textContent = ''; el.appendChild(badge()); done = true;
+      el.setAttribute('data-ns-done', ''); el.textContent = ''; el.appendChild(badge()); if (SHOW_WANT) el.appendChild(want()); done = true;
     });
     [].forEach.call((root || document).querySelectorAll('a[href*="niveshsahayak.in"]:not(.ns-credit)'), function (a) {
       var t = a.previousSibling;
       if (!t || t.nodeType !== 3 || !RE.test(t.nodeValue) || (a.closest && a.closest('.ns-credit'))) return;
       t.nodeValue = t.nodeValue.replace(RE, '');
-      a.parentNode.replaceChild(badge(), a); done = true;
+      var b = badge(); a.parentNode.replaceChild(b, a);
+      if (SHOW_WANT) b.parentNode.insertBefore(want(), b.nextSibling);
+      done = true;
     });
     if (done) style();
     tone();
