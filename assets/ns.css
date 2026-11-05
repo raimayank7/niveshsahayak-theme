@@ -180,3 +180,13 @@ button,input,select,textarea,optgroup{font-family:inherit}
 [data-theme="dark"] .ns-brand::before{background-image:url(brand/ns-mark-dark.webp)}
 @media (max-width:400px){.ns-brand::before{width:59px;height:42px}}
 @media (max-width:380px){.ns-brand::before{width:42px;height:30px}}
+/* home: free business tools list (ns.js) */
+.ns-tools{padding:32px 0}.ns-tools h2{margin:0 0 6px}.ns-tools p{margin:0 0 14px;color:var(--muted)}
+.ns-tools ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px}
+.ns-tools li a{display:flex;align-items:center;min-height:44px;padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);font-weight:600;text-decoration:none;box-sizing:border-box}
+.ns-tools li a:hover,.ns-tools li a:focus-visible{border-color:var(--primary);color:var(--primary)}
+.ns-tools .ns-tools__all{margin:14px 0 0}.ns-tools .ns-tools__all a{font-weight:700;color:var(--primary)}
+@media (max-width:400px){.ns-tools ul{grid-template-columns:1fr 1fr}}
+/* calculators: number boxes big enough to tap on phones (were 22 px tall); 16 px text stops iPhone zooming in */
+.ns-field__val{min-height:40px;box-sizing:border-box}
+.ns-field__val input{min-height:32px;font-size:16px}

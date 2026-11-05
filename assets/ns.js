@@ -985,3 +985,32 @@ loadPages(nsMain);
   add('icon', B + 'favicon-light-192.png', '192x192');
   add('apple-touch-icon', B + 'apple-touch-icon.png', '180x180');
 })();
+
+/* Home page (user test 2026-11-05, #25): a section listing the free Nivesh Sahayak business tools (the home linked only a few
+   of them) and a clearer tab title. Tool names stay in English: they are the names on the tools themselves. */
+;(function () {
+  if (!document.body.classList.contains('is-home')) return;
+  var pref = null; try { pref = localStorage.getItem('ns-lang'); } catch (e) {}
+  var lang = pref === 'hi' || pref === 'pa' || pref === 'bho' ? pref : 'en';
+  var S = {
+    en: ['Free business software', 'Tools for bills, GST and accounts, free forever. No login: your data stays in your own browser.', 'See every tool in the App'],
+    hi: ['मुफ़्त बिज़नेस सॉफ़्टवेयर', 'बिल, जीएसटी और हिसाब-किताब के टूल, हमेशा मुफ़्त। कोई लॉगिन नहीं: आपका डेटा आपके अपने ब्राउज़र में रहता है।', 'सारे टूल ऐप में देखें'],
+    pa: ['ਮੁਫ਼ਤ ਬਿਜ਼ਨੈਸ ਸਾਫ਼ਟਵੇਅਰ', 'ਬਿੱਲ, ਜੀਐਸਟੀ ਅਤੇ ਹਿਸਾਬ-ਕਿਤਾਬ ਦੇ ਟੂਲ, ਹਮੇਸ਼ਾ ਮੁਫ਼ਤ। ਕੋਈ ਲਾਗਇਨ ਨਹੀਂ: ਤੁਹਾਡਾ ਡਾਟਾ ਤੁਹਾਡੇ ਆਪਣੇ ਬ੍ਰਾਊਜ਼ਰ ਵਿੱਚ ਰਹਿੰਦਾ ਹੈ।', 'ਸਾਰੇ ਟੂਲ ਐਪ ਵਿੱਚ ਦੇਖੋ'],
+    bho: ['मुफ्त बिजनेस सॉफ्टवेयर', 'बिल, जीएसटी आ हिसाब-किताब के टूल, हमेशा मुफ्त। कवनो लॉगिन ना: रउआ डेटा रउए ब्राउजर में रहेला।', 'सगरी टूल ऐप में देखीं']
+  }[lang];
+  var T = [['app', 'Nivesh Sahayak App'], ['billing', 'GST Billing'], ['quotation', 'Quotation'], ['cash-memo', 'Cash Memo'], ['receipt', 'Receipt'], ['voucher', 'Payment Voucher'],
+    ['purchase', 'Purchase Bills'], ['expenses', 'Expenses'], ['khata', 'Khata Book'], ['stock', 'Stock Register'], ['pos', 'Shop POS'], ['gstr1', 'GSTR-1'], ['gstr3b', 'GSTR-3B'],
+    ['eway-bill', 'E-way Bill'], ['e-invoice', 'E-invoice'], ['gstin', 'GSTIN Check'], ['hsn', 'HSN Finder'], ['gst-calendar', 'GST Calendar'], ['salary-slip', 'Salary Slip'],
+    ['rent-receipt', 'Rent Receipt'], ['profit-loss', 'Profit and Loss'], ['tally', 'Tally Export'], ['designs', 'Website Designs']];
+  function esc(t) { return String(t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  var h = '<section class="ns-tools" id="free-tools" aria-labelledby="ns-tools-h"><div class="ns-wrap"><h2 id="ns-tools-h">' + esc(S[0]) + '</h2><p>' + esc(S[1]) + '</p><ul>' +
+    T.map(function (x) { return '<li><a href="https://' + x[0] + '.niveshsahayak.in/">' + esc(x[1]) + '</a></li>'; }).join('') +
+    '</ul><p class="ns-tools__all"><a href="https://app.niveshsahayak.in/">' + esc(S[2]) + ' →</a></p></div></section>';
+  function add() {
+    if (document.getElementById('free-tools')) return;
+    var at = document.getElementById('invest') || document.querySelector('footer.ns-footer');
+    if (at) at.insertAdjacentHTML('beforebegin', h);
+    if (/^Nivesh Sahayak$/.test(document.title.trim())) document.title = 'Nivesh Sahayak: Investment Guides and Free GST Billing Software';
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', add); else add();
+})();
