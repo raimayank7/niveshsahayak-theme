@@ -107,6 +107,7 @@ var T = {
 "Tax Saving & ELSS":{hi:"टैक्स बचत और ELSS",pa:"ਟੈਕਸ ਬੱਚਤ ਅਤੇ ELSS",bho:"टैक्स बचत आ ELSS"},
 "Goal Planning":{hi:"लक्ष्य योजना",pa:"ਟੀਚਾ ਯੋਜਨਾ",bho:"लक्ष्य के योजना"},
 "Debt Funds":{hi:"डेट फंड",pa:"ਡੈੱਟ ਫੰਡ",bho:"डेट फंड"},
+"Become an MFD":{hi:"MFD कैसे बनें",pa:"MFD ਕਿਵੇਂ ਬਣੀਏ",bho:"MFD कइसे बनीं"},
 "Investor Awareness":{hi:"निवेशक जागरूकता",pa:"ਨਿਵੇਸ਼ਕ ਜਾਗਰੂਕਤਾ",bho:"निवेशक जागरूकता"},
 "Tax Saving":{hi:"टैक्स बचत",pa:"ਟੈਕਸ ਬੱਚਤ",bho:"टैक्स बचत"},
 "Calculators":{hi:"कैलकुलेटर",pa:"ਕੈਲਕੁਲੇਟਰ",bho:"कैलकुलेटर"},
@@ -424,7 +425,7 @@ function pairOf(cats,url){ for(var i=0;i<cats.length;i++) if(cats[i].indexOf(PAI
 function normUrl(u){ return (u||'').replace(/^https?:\/\/[^/]+/,'').replace(/[?#].*$/,'').replace(/\.html.*$/,'.html'); }
 
 function loadIndex(){
-  var CK='ns-lang-index-v3';
+  var CK='ns-lang-index-v4';
   try{ var c=JSON.parse(sessionStorage.getItem(CK)||'null'); if(c && Date.now()-c.t<600000) return Promise.resolve(c.p); }catch(e){}
   var all=[];
   function page(start){
@@ -434,11 +435,16 @@ function loadIndex(){
         var link=(e.link||[]).filter(function(l){return l.rel==='alternate';})[0];
         var cats=(e.category||[]).map(function(c){return c.term;});
         var sum=((e.summary&&e.summary.$t)||'').replace(/\s+/g,' ').trim();
+        // posts that start with a <style> block: drop the CSS rules from the card text
+        while(/^[^{}]{0,160}\{[^{}]*\}/.test(sum)) sum=sum.replace(/^[^{}]{0,160}\{[^{}]*\}\s*/,'');
+        if(/^[^{}]{0,160}\{/.test(sum)) sum='';   // the feed's summary ended inside the CSS: no text is better than CSS
         all.push({u:link?link.href:'',t:e.title.$t,s:sum.length>160?sum.slice(0,157).replace(/\s+\S*$/,'')+'…':sum,
                   d:e.published.$t,up:(e.updated&&e.updated.$t)||e.published.$t,c:cats,l:postLangOf(cats),p:pairOf(cats,link&&link.href),tp:topicsOf(cats),
                   i:e.media$thumbnail?e.media$thumbnail.url.replace(/\/s72(-[a-z]+)?\//,'/w640-h360-c/').replace(/=s72(-[a-z]+)?$/,'=w640-h360-c'):''});
       });
-      return (es.length===150 && start<600) ? page(start+150) : all;
+      // Blogger may send fewer than 150 posts a page (it caps the feed by size), so page by what came back until the total
+      var total=+((j.feed&&j.feed.openSearch$totalResults&&j.feed.openSearch$totalResults.$t)||0), next=start+es.length;
+      return (es.length && next<=total && next<3000) ? page(next) : all;
     });
   }
   return page(1).then(function(p){ try{sessionStorage.setItem(CK,JSON.stringify({t:Date.now(),p:p}));}catch(e){} return p; });
