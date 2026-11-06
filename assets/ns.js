@@ -417,11 +417,14 @@ function rankPopular(){
    ------------------------------------------------------------------ */
 function postLangOf(cats){ for(var i=0;i<cats.length;i++){ if(cats[i].indexOf(LANG_PREFIX)===0){ var l=cats[i].slice(LANG_PREFIX.length); if(LANGS[l]) return l; } } return 'en'; }
 function topicsOf(cats){ return cats.filter(function(c){ return c.indexOf(LANG_PREFIX)!==0 && c.indexOf(PAIR_PREFIX)!==0; }); }
-function pairOf(cats){ for(var i=0;i<cats.length;i++) if(cats[i].indexOf(PAIR_PREFIX)===0) return cats[i]; return null; }
+// An English post without a pair- label pairs with translations labelled pair-<its address>, e.g. pair-is-wealthy-legit-for-mutual-fund
+// (translations made later can't add a label to the live English post).
+function pairOf(cats,url){ for(var i=0;i<cats.length;i++) if(cats[i].indexOf(PAIR_PREFIX)===0) return cats[i];
+  var m=postLangOf(cats)==='en' && /\/([^/]+)\.html/.exec(url||''); return m ? PAIR_PREFIX+m[1] : null; }
 function normUrl(u){ return (u||'').replace(/^https?:\/\/[^/]+/,'').replace(/[?#].*$/,'').replace(/\.html.*$/,'.html'); }
 
 function loadIndex(){
-  var CK='ns-lang-index-v2';
+  var CK='ns-lang-index-v3';
   try{ var c=JSON.parse(sessionStorage.getItem(CK)||'null'); if(c && Date.now()-c.t<600000) return Promise.resolve(c.p); }catch(e){}
   var all=[];
   function page(start){
@@ -432,7 +435,7 @@ function loadIndex(){
         var cats=(e.category||[]).map(function(c){return c.term;});
         var sum=((e.summary&&e.summary.$t)||'').replace(/\s+/g,' ').trim();
         all.push({u:link?link.href:'',t:e.title.$t,s:sum.length>160?sum.slice(0,157).replace(/\s+\S*$/,'')+'…':sum,
-                  d:e.published.$t,up:(e.updated&&e.updated.$t)||e.published.$t,c:cats,l:postLangOf(cats),p:pairOf(cats),tp:topicsOf(cats),
+                  d:e.published.$t,up:(e.updated&&e.updated.$t)||e.published.$t,c:cats,l:postLangOf(cats),p:pairOf(cats,link&&link.href),tp:topicsOf(cats),
                   i:e.media$thumbnail?e.media$thumbnail.url.replace(/\/s72(-[a-z]+)?\//,'/w640-h360-c/').replace(/=s72(-[a-z]+)?$/,'=w640-h360-c'):''});
       });
       return (es.length===150 && start<600) ? page(start+150) : all;
