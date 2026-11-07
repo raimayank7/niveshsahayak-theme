@@ -190,3 +190,15 @@ button,input,select,textarea,optgroup{font-family:inherit}
 /* calculators: number boxes big enough to tap on phones (were 22 px tall); 16 px text stops iPhone zooming in */
 .ns-field__val{min-height:40px;box-sizing:border-box}
 .ns-field__val input{min-height:32px;font-size:16px}
+
+/* Phones (owner, 2026-11-07: the name ran into the header buttons): the Google "preferred source" button steps aside below 480 px
+   (the footer keeps Google's own button), and the site name shortens with "…" instead of running under the buttons when the
+   phone uses a larger text size. */
+@media (max-width:480px){
+  .pref-src-head{display:none!important}
+  .ns-header__in{gap:8px}
+  .ns-brand{min-width:0;flex:0 1 auto}
+  .ns-brand>span{min-width:0;overflow:hidden}
+  .ns-brand__name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ns-actions{flex:none}
+}
