@@ -1023,3 +1023,36 @@ loadPages(nsMain);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', add); else add();
 })();
+
+
+/* "Talk to us" in the header opens WhatsApp (owner, 2026-11-22). The theme's button points to the contact page, so it is
+   switched here: same number and first message as the floating WhatsApp button; credit.js puts the WhatsApp icon in front
+   of it (any button that points to WhatsApp gets one). The contact page stays in the menu ("Contact"). */
+(function () {
+  var LABELS = /^(talk to us|हमसे बात करें|ਸਾਡੇ ਨਾਲ ਗੱਲ ਕਰੋ|हमनी से बात करीं)$/i;
+  var TEXT = 'Hi Love, I visited Nivesh Sahayak and have a question.';
+  function fix() {
+    var wa = String((window.NS_CONFIG || {}).whatsapp || '').replace(/\D/g, '');
+    if (!wa) return;
+    [].forEach.call(document.querySelectorAll('.ns-actions a.ns-btn, header a.ns-btn'), function (a) {
+      if (a.getAttribute('data-ns-talk')) return;
+      if (!LABELS.test((a.textContent || '').trim())) return;
+      a.setAttribute('data-ns-talk', '1');
+      a.href = 'https://wa.me/' + wa + '?text=' + encodeURIComponent(TEXT);
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.setAttribute('aria-label', (a.textContent || '').trim() + ' on WhatsApp');
+      a.appendChild(document.createComment('wa'));   // a DOM change, so credit.js looks at the button again and adds the icon
+    });
+  }
+  function start() {
+    fix();
+    setTimeout(fix, 800);
+    setTimeout(fix, 2500);
+    if (window.MutationObserver && document.body) {
+      var t = 0;
+      new MutationObserver(function () { clearTimeout(t); t = setTimeout(fix, 200); }).observe(document.body, { childList: true, subtree: true });
+    }
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
+})();
