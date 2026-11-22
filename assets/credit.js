@@ -122,6 +122,26 @@
     var pad = (parseFloat(cs.paddingLeft) || 0) + (parseFloat(cs.paddingRight) || 0);
     return (hasBg || bd) && pad >= 16;
   }
+  /* is this icon already the WhatsApp logo? (our own, one with a WhatsApp name, or a path of the usual logo) */
+  function isWa(n) {
+    if (n.hasAttribute('data-wa-ico')) return true;
+    if (/whatsapp|(^|[\s_-])wa([\s_-]|$)/i.test((n.getAttribute('class') || '') + ' ' + (n.getAttribute('src') || ''))) return true;
+    var ps = n.querySelectorAll ? n.querySelectorAll('path') : [];
+    for (var i = 0; i < ps.length; i++) {
+      var d = ps[i].getAttribute('d') || '';
+      if (d.indexOf('M17.472') >= 0 || d.indexOf('11.815 11.815') >= 0 || d.indexOf('M12.04 2c-5.46') >= 0 || d.indexOf('M20.52 3.449') >= 0) return true;
+    }
+    return false;
+  }
+  /* nothing but blank space in front of the icon inside the button */
+  function isLeading(el, lead) {
+    var n = lead;
+    while (n && n.parentNode !== el) n = n.parentNode;
+    for (var p = n && n.previousSibling; p; p = p.previousSibling) {
+      if (p.nodeType === 1 || (p.nodeType === 3 && /\S/.test(p.nodeValue))) return false;
+    }
+    return !!n;
+  }
   function icon() {
     var s = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     s.setAttribute('viewBox', '0 0 24 24');
@@ -141,10 +161,21 @@
       if (el.hasAttribute('data-wa-done') || el.hasAttribute('data-noic')) continue;
       if (!pointsToWa(el)) continue;
       el.setAttribute('data-wa-done', '');
-      if (el.querySelector('svg, img, i[class*=icon], .fi, .ic')) continue;        // already has an icon
       if (!(el.textContent || '').replace(/\s+/g, '').length) continue;               // icon-only buttons keep their own look
       if (!looksLikeButton(el)) continue;
-      el.insertBefore(icon(), el.firstChild);
+      var lead = el.querySelector('svg, img');
+      if (lead && isWa(lead)) continue;                                               // already the WhatsApp logo
+      if (!lead && el.querySelector('i[class*=icon], .fi, .ic')) continue;           // an icon font we cannot judge
+      var ic = icon();
+      if (lead && isLeading(el, lead)) {
+        /* a different icon in front (for example a chat bubble): swap it for the WhatsApp logo, same size */
+        var r = lead.getBoundingClientRect();
+        if (r.width > 0 && r.height > 0) { ic.style.width = r.width + 'px'; ic.style.height = r.height + 'px'; }
+        if (parseFloat(getComputedStyle(el).columnGap) > 0) ic.style.marginRight = '0';
+        lead.parentNode.replaceChild(ic, lead);
+      } else {
+        el.insertBefore(ic, el.firstChild);
+      }
       done++;
     }
   }
