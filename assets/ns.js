@@ -1002,19 +1002,39 @@ loadPages(nsMain);
   var pref = null; try { pref = localStorage.getItem('ns-lang'); } catch (e) {}
   var lang = pref === 'hi' || pref === 'pa' || pref === 'bho' ? pref : 'en';
   var S = {
-    en: ['Free business software', 'Tools for bills, GST and accounts, free forever. No login: your data stays in your own browser.', 'See every tool in the App'],
-    hi: ['मुफ़्त बिज़नेस सॉफ़्टवेयर', 'बिल, जीएसटी और हिसाब-किताब के टूल, हमेशा मुफ़्त। कोई लॉगिन नहीं: आपका डेटा आपके अपने ब्राउज़र में रहता है।', 'सारे टूल ऐप में देखें'],
-    pa: ['ਮੁਫ਼ਤ ਬਿਜ਼ਨੈਸ ਸਾਫ਼ਟਵੇਅਰ', 'ਬਿੱਲ, ਜੀਐਸਟੀ ਅਤੇ ਹਿਸਾਬ-ਕਿਤਾਬ ਦੇ ਟੂਲ, ਹਮੇਸ਼ਾ ਮੁਫ਼ਤ। ਕੋਈ ਲਾਗਇਨ ਨਹੀਂ: ਤੁਹਾਡਾ ਡਾਟਾ ਤੁਹਾਡੇ ਆਪਣੇ ਬ੍ਰਾਊਜ਼ਰ ਵਿੱਚ ਰਹਿੰਦਾ ਹੈ।', 'ਸਾਰੇ ਟੂਲ ਐਪ ਵਿੱਚ ਦੇਖੋ'],
-    bho: ['मुफ्त बिजनेस सॉफ्टवेयर', 'बिल, जीएसटी आ हिसाब-किताब के टूल, हमेशा मुफ्त। कवनो लॉगिन ना: रउआ डेटा रउए ब्राउजर में रहेला।', 'सगरी टूल ऐप में देखीं']
+    en: ['Free business software', 'NSBiz and its tools for bills, GST and accounts, free forever. No login: your data stays in your own browser.', 'Open NSBiz, the full software',
+      ['Bills and documents', 'Money and accounts', 'GST and tax', 'Shop, stock and staff', 'For your trade', 'Websites']],
+    hi: ['मुफ़्त बिज़नेस सॉफ़्टवेयर', 'NSBiz और उसके टूल: बिल, जीएसटी और हिसाब-किताब, हमेशा मुफ़्त। कोई लॉगिन नहीं: आपका डेटा आपके अपने ब्राउज़र में रहता है।', 'NSBiz खोलें, पूरा सॉफ़्टवेयर',
+      ['बिल और डॉक्यूमेंट', 'पैसा और अकाउंट', 'जीएसटी और टैक्स', 'दुकान, स्टॉक और स्टाफ़', 'आपके कारोबार के लिए', 'वेबसाइट']],
+    pa: ['ਮੁਫ਼ਤ ਬਿਜ਼ਨੈਸ ਸਾਫ਼ਟਵੇਅਰ', 'NSBiz ਅਤੇ ਇਸ ਦੇ ਟੂਲ: ਬਿੱਲ, ਜੀਐਸਟੀ ਅਤੇ ਹਿਸਾਬ-ਕਿਤਾਬ, ਹਮੇਸ਼ਾ ਮੁਫ਼ਤ। ਕੋਈ ਲਾਗਇਨ ਨਹੀਂ: ਤੁਹਾਡਾ ਡਾਟਾ ਤੁਹਾਡੇ ਆਪਣੇ ਬ੍ਰਾਊਜ਼ਰ ਵਿੱਚ ਰਹਿੰਦਾ ਹੈ।', 'NSBiz ਖੋਲ੍ਹੋ, ਪੂਰਾ ਸਾਫ਼ਟਵੇਅਰ',
+      ['ਬਿੱਲ ਅਤੇ ਡਾਕੂਮੈਂਟ', 'ਪੈਸਾ ਅਤੇ ਅਕਾਊਂਟ', 'ਜੀਐਸਟੀ ਅਤੇ ਟੈਕਸ', 'ਦੁਕਾਨ, ਸਟਾਕ ਅਤੇ ਸਟਾਫ਼', 'ਤੁਹਾਡੇ ਕਾਰੋਬਾਰ ਲਈ', 'ਵੈੱਬਸਾਈਟ']],
+    bho: ['मुफ्त बिजनेस सॉफ्टवेयर', 'NSBiz आ ओकर टूल: बिल, जीएसटी आ हिसाब-किताब, हमेशा मुफ्त। कवनो लॉगिन ना: रउआ डेटा रउए ब्राउजर में रहेला।', 'NSBiz खोलीं, पूरा सॉफ्टवेयर',
+      ['बिल आ डॉक्यूमेंट', 'पइसा आ अकाउंट', 'जीएसटी आ टैक्स', 'दोकान, स्टॉक आ स्टाफ', 'रउआ कारोबार खातिर', 'वेबसाइट']]
   }[lang];
-  var T = [['app', 'Nivesh Sahayak App'], ['billing', 'GST Billing'], ['quotation', 'Quotation'], ['cash-memo', 'Cash Memo'], ['receipt', 'Receipt'], ['voucher', 'Payment Voucher'],
-    ['purchase', 'Purchase Bills'], ['expenses', 'Expenses'], ['khata', 'Khata Book'], ['stock', 'Stock Register'], ['pos', 'Shop POS'], ['gstr1', 'GSTR-1'], ['gstr3b', 'GSTR-3B'],
-    ['eway-bill', 'E-way Bill'], ['e-invoice', 'E-invoice'], ['gstin', 'GSTIN Check'], ['hsn', 'HSN Finder'], ['gst-calendar', 'GST Calendar'], ['salary-slip', 'Salary Slip'],
-    ['rent-receipt', 'Rent Receipt'], ['profit-loss', 'Profit and Loss'], ['tally', 'Tally Export'], ['designs', 'Website Designs']];
+  /* Every live tool (checked against the 71 NS sites, 22 Nov 2026). [address, name]; an address with a dot or slash is used as it is. */
+  var G = [
+    [['app', 'NSBiz (full software)'], ['app.niveshsahayak.in/desktop/', 'NSBiz for Windows'], ['billing', 'GST Invoice'], ['quotation', 'Quotation and Estimate'], ['proforma', 'Proforma Invoice'],
+      ['sales-order', 'Sales Order'], ['challan', 'Delivery Challan'], ['cash-memo', 'Cash Memo'], ['credit-note', 'Credit Note'], ['debit-note', 'Debit Note'],
+      ['export-invoice', 'Export Invoice'], ['self-invoice', 'Self Invoice (RCM)'], ['purchase-order', 'Purchase Order'], ['receipt', 'Receipt'], ['voucher', 'Payment Voucher'],
+      ['price-list', 'Price List'], ['barcode', 'Barcode Labels']],
+    [['khata', 'Khata Book'], ['cash-book', 'Cash Book'], ['expenses', 'Expenses'], ['purchase', 'Purchase Register'], ['cheque', 'Cheque Register'], ['bank-reco', 'Bank Reconciliation'],
+      ['petty-cash', 'Petty Cash'], ['profit-loss', 'Profit and Loss'], ['tally', 'Tally Export'], ['ca', 'Accountant Viewer'], ['learn', 'Learn Accounting']],
+    [['gstr1', 'GSTR-1'], ['gstr3b', 'GSTR-3B'], ['gstr2b', 'GSTR-2B Match'], ['cmp08', 'CMP-08'], ['e-invoice', 'E-invoice'], ['eway-bill', 'E-way Bill'], ['gstin', 'GSTIN Check'],
+      ['hsn', 'HSN Finder'], ['gst-calendar', 'GST Calendar'], ['tds', 'TDS Calculator'], ['declaration', 'Declarations (Form 127)'], ['file', 'Which Form to File']],
+    [['pos', 'Shop POS'], ['stock', 'Stock Register'], ['salary-slip', 'Salary Slip'], ['rent-receipt', 'Rent Receipt'], ['calc', 'Business Calculators']],
+    [['restaurant', 'Restaurant'], ['pharmacy', 'Pharmacy'], ['clinic', 'Clinic'], ['salon', 'Salon, Gym, Coaching'], ['hotel', 'Hotel'], ['garment', 'Garment Shop'],
+      ['jewellery', 'Jewellery'], ['garage', 'Garage'], ['job-card', 'Job Card'], ['amc', 'AMC Contracts'], ['contractor-bill', 'Contractor RA Bill'], ['bilty', 'Bilty (Transport)'],
+      ['tripsheet', 'Trip Sheet'], ['mandi', 'Mandi'], ['petrol', 'Petrol Pump'], ['dairy', 'Dairy'], ['subscribers', 'Monthly Subscribers'], ['rent', 'Landlords'],
+      ['fees', 'Student Fees'], ['fee-receipt', 'Fee Receipt'], ['marketplace', 'Online Sellers']],
+    [['designs', 'Website Designs'], ['bio', 'Bio Pages']]
+  ];
   function esc(t) { return String(t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
-  var h = '<section class="ns-tools" id="free-tools" aria-labelledby="ns-tools-h"><div class="ns-wrap"><h2 id="ns-tools-h">' + esc(S[0]) + '</h2><p>' + esc(S[1]) + '</p><ul>' +
-    T.map(function (x) { return '<li><a href="https://' + x[0] + '.niveshsahayak.in/">' + esc(x[1]) + '</a></li>'; }).join('') +
-    '</ul><p class="ns-tools__all"><a href="https://app.niveshsahayak.in/">' + esc(S[2]) + ' →</a></p></div></section>';
+  function url(a) { return 'https://' + (/[.\/]/.test(a) ? a : a + '.niveshsahayak.in/'); }
+  var h = '<section class="ns-tools" id="free-tools" aria-labelledby="ns-tools-h"><div class="ns-wrap"><h2 id="ns-tools-h">' + esc(S[0]) + '</h2><p>' + esc(S[1]) + '</p>' +
+    G.map(function (g, i) {
+      return '<h3>' + esc(S[3][i]) + '</h3><ul>' + g.map(function (x) { return '<li><a href="' + url(x[0]) + '">' + esc(x[1]) + '</a></li>'; }).join('') + '</ul>';
+    }).join('') +
+    '<p class="ns-tools__all"><a href="https://app.niveshsahayak.in/">' + esc(S[2]) + ' →</a></p></div></section>';
   function add() {
     if (document.getElementById('free-tools')) return;
     var at = document.getElementById('invest') || document.querySelector('footer.ns-footer');
