@@ -231,7 +231,8 @@ button,input,select,textarea,optgroup{font-family:inherit}
   body .ns-social__a,body .ns-author .ns-social__a,body .ns-footer .ns-social__a{width:44px;height:44px}
   .ns-chip,.ns-tag{position:relative}.ns-chip::after,.ns-tag::after{content:"";position:absolute;inset:-11px -3px}
   body .ns-field__val input{min-height:44px;height:auto}
-  .ns-field input[type=range]{height:34px;padding:14px 0;background-clip:content-box;box-sizing:border-box}
+  .ns-field input[type=range]{height:44px;padding:19px 0;background-clip:content-box;box-sizing:border-box}
+  .ns-tools .ns-tools__all a{display:inline-block;padding:12px 0}
   .ns-field input[type=range]::-webkit-slider-thumb{width:28px;height:28px}
   .ns-calc__tabs button{min-height:44px}
   .ns-fab{bottom:calc(16px + env(safe-area-inset-bottom));right:16px}
