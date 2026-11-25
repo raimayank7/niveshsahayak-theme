@@ -1043,3 +1043,42 @@ loadPages(nsMain);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', add); else add();
 })();
+
+/* Phone layout (P6, 26 Nov 2026): up to 600 px the menu is a bottom sheet. Language and light/dark move into it (and back
+   above 600 px); tapping outside the sheet or pressing Esc closes it. Uses the theme's own burger button, so nothing else changes. */
+(function () {
+  var mq = window.matchMedia ? matchMedia('(max-width:600px)') : null;
+  if (!mq) return;
+  function init() {
+    var hd = document.getElementById('ns-header'), nav = document.getElementById('ns-nav'), burger = document.getElementById('ns-burger');
+    if (!hd || !nav || !burger) return;
+    var box = null, homes = [];
+    function grab(el) { if (el && !homes.some(function (h) { return h.el === el; })) homes.push({ el: el, home: el.parentNode, next: el.nextSibling }); }
+    function label() { var t = document.getElementById('ns-theme'); if (t) t.setAttribute('data-label', document.documentElement.getAttribute('data-theme') === 'dark' ? 'Light mode' : 'Dark mode'); }
+    function place() {
+      grab(document.querySelector('.ns-actions .ns-lang-btn')); grab(document.getElementById('ns-theme'));
+      if (mq.matches) {
+        if (!box) { box = document.createElement('div'); box.className = 'ns-sheet-tools'; }
+        if (box.parentNode !== nav) nav.appendChild(box);
+        homes.forEach(function (h) { if (h.el.parentNode !== box) box.appendChild(h.el); });
+        label();
+      } else {
+        homes.forEach(function (h) { if (h.el.parentNode !== h.home) h.home.insertBefore(h.el, h.next && h.next.parentNode === h.home ? h.next : null); });
+        if (box && box.parentNode) box.parentNode.removeChild(box);
+      }
+    }
+    place();
+    var acts = document.querySelector('.ns-actions');
+    if (acts) new MutationObserver(function () { if (acts.querySelector('.ns-lang-btn')) place(); }).observe(acts, { childList: true }); // the language button arrives a moment after load
+    if (mq.addEventListener) mq.addEventListener('change', place); else if (mq.addListener) mq.addListener(place);
+    new MutationObserver(label).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    function shut() { if (hd.classList.contains('is-menu')) burger.click(); }
+    document.addEventListener('click', function (e) {
+      if (!mq.matches || !hd.classList.contains('is-menu')) return;
+      if (!nav.contains(e.target) && !burger.contains(e.target)) { e.preventDefault(); shut(); }
+    }, true);
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && mq.matches) shut(); });
+    nav.addEventListener('click', function (e) { if (mq.matches && e.target.closest('#ns-theme')) setTimeout(label, 0); });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();

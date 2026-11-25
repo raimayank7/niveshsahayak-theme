@@ -202,3 +202,39 @@ button,input,select,textarea,optgroup{font-family:inherit}
   .ns-brand__name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .ns-actions{flex:none}
 }
+
+/* ===== Phone layout (up to 600 px, P6 26 Nov 2026). Wider screens unchanged.
+   Header keeps only brand, search and menu; the menu opens as a bottom sheet that also holds language and light/dark
+   (ns.js moves those two buttons in). Every tap target at least 44 px. ===== */
+@media (max-width:600px){
+  .ns-header__in{height:60px}
+  .ns-actions{gap:6px}
+  .ns-actions .ns-icon-btn{width:44px;height:44px}
+  .ns-actions #ns-theme,.ns-actions .ns-lang-btn{display:none}
+  .ns-brand{min-height:44px}
+  /* the menu as a bottom sheet */
+  .ns-header.is-menu{-webkit-backdrop-filter:none;backdrop-filter:none;background:var(--surface)}
+  .ns-header.is-menu .ns-nav{position:fixed;top:auto;left:0;right:0;bottom:0;z-index:60;max-height:min(82dvh,82vh);border:0;border-radius:22px 22px 0 0;
+    padding:8px 16px calc(16px + env(safe-area-inset-bottom));box-shadow:0 0 0 100vmax rgba(6,18,30,.5),0 -10px 40px rgba(0,0,0,.25);animation:nsSheet .22s ease-out;overscroll-behavior:contain}
+  .ns-header.is-menu .ns-nav::before{content:"";display:block;width:42px;height:5px;border-radius:9px;background:var(--line-strong,var(--line));margin:2px auto 10px}
+  .ns-nav a,.ns-nav__dd{min-height:48px;padding:12px;font-size:16.5px;border-radius:12px}
+  .ns-nav .ns-dd a{min-height:44px;padding:10px 12px 10px 22px}
+  .ns-sheet-tools{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0 2px;padding-top:12px;border-top:1px solid var(--line)}
+  .ns-sheet-tools .ns-lang-btn,.ns-sheet-tools #ns-theme{display:flex!important;flex-direction:row;align-items:center;justify-content:center;gap:8px;width:100%;height:48px;padding:0 12px;border-radius:12px}
+  .ns-sheet-tools .ns-lang-btn span{font-size:14px}
+  .ns-sheet-tools #ns-theme::after{content:attr(data-label);font:600 14px var(--font);color:var(--ink)}
+  .ns-sheet-tools #ns-theme svg{width:18px;height:18px}
+  /* small links: bigger tap areas without moving anything */
+  .ns-crumbs a,.ns-toc a,.ns-footer a,.ns-card__title a,.ns-meta a,.ns-pager a{padding-top:12px;padding-bottom:12px}
+  .ns-footer li a,.ns-footer__links a{display:inline-block;min-height:44px;line-height:44px;padding-top:0;padding-bottom:0}
+  .ns-toc summary{min-height:44px}
+  body .ns-social__a,body .ns-author .ns-social__a,body .ns-footer .ns-social__a{width:44px;height:44px}
+  .ns-chip,.ns-tag{position:relative}.ns-chip::after,.ns-tag::after{content:"";position:absolute;inset:-11px -3px}
+  body .ns-field__val input{min-height:44px;height:auto}
+  .ns-field input[type=range]{height:34px;padding:14px 0;background-clip:content-box;box-sizing:border-box}
+  .ns-field input[type=range]::-webkit-slider-thumb{width:28px;height:28px}
+  .ns-calc__tabs button{min-height:44px}
+  .ns-fab{bottom:calc(16px + env(safe-area-inset-bottom));right:16px}
+}
+@keyframes nsSheet{from{transform:translateY(36px);opacity:.5}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){.ns-header.is-menu .ns-nav{animation:none}}
